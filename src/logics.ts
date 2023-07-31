@@ -19,7 +19,7 @@ const readProducts = (req: Request, res: Response): Response => {
     return acc + Number(act.price);
   }, 0);
 
-  return res.status(200).json({ total: totalPrice, market });
+  return res.status(200).json({ total: totalPrice, products: market });
 };
 
 const readProductsById = (req: Request, res: Response): Response => {
@@ -40,11 +40,14 @@ const createProduct = (req: Request, res: Response): Response => {
 };
 
 const updateProduct = (req: Request, res: Response): Response => {
-  const { foundProduct } = res.locals;
+  const { foundProduct, productIndex } = res.locals;
+
   const updatedProduct: Product = {
     ...foundProduct,
     ...req.body,
   };
+
+  market[productIndex] = updatedProduct;
 
   return res.status(200).json(updatedProduct);
 };
